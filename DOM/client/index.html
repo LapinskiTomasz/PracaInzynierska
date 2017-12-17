@@ -1,0 +1,64 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Witaj</title>
+
+</head>
+<body>
+
+	<div class="text-center jumbotron">
+	  <h1>Porównywarka cen paliw</h1>
+
+
+    </div>
+
+		<div id="app">
+
+    <div class="container">
+        <label><b>Podaj miasto</b></label>
+        <input type="text" v-model ="city" required>
+				<label v-if="!byRating"><b>Wybierz paliwo</b></label>
+				<select v-model='fuel' v-if="!byRating">
+					<option >PB95</option>
+					<option >PB98</option>
+					<option >ON</option>
+					<option >LPG</option>
+				</select>
+
+				<input type="checkbox" id="checkbox" v-model="byRating">
+				<label>wyszukaj po ocenach</label>
+
+        <button @click="getPosts(city,fuel)" >Szukaj</button>
+				<button @click="login()" v-if="!isLogged">Zaloguj</button>
+				<button @click="logout()" v-if="isLogged">Wyloguj</button>
+				<button @click="register()" v-if="!isLogged">Zarejestruj</button>
+
+				<div class="container" v-for="result in results">
+  				<div >
+    				<div >
+      			{{ result.name }}
+    			</div>
+    				<div>
+    		  <p>{{ result.pb95Price }}.</p>
+					<p>{{ result.pb98Price }}.</p>
+					<p>{{ result.onprice }}.</p>
+					<p>{{ result.lpgprice }}.</p>
+    				</div>
+					<button @click="getComments(result.id)" >Komentarze</button>
+
+  				</div>
+				</div>
+
+
+
+				<p>Czy jestem zalogowany? <span>{{isLogged}}</span></p>
+
+      </div>
+
+	</div>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="app.js"></script>
+
+</body>
+</html>

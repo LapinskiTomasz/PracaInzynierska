@@ -1,0 +1,37 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Witaj</title>
+
+</head>
+<body>
+
+	<div class="text-center jumbotron">
+	  <h1>Logowanie</h1>
+
+
+    </div>
+
+		<div id="app">
+
+      <div class="container">
+
+          <label><b>Login</b></label>
+          <input type="text"  v-model ="login" required>
+  				<label><b>Hasło</b></label>
+          <input type="password" v-model ="password" required>
+          <button @click="loginUser(login,password)" >Zaloguj</button>
+
+        </div>
+
+				<p v-if="isLogged === false">Nie poprawny login lub hasło</p>
+	</div>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="https://unpkg.com/vuex"></script>
+	<!-- <script src="store.js"></script> -->
+	<script src="login.js"></script>
+
+
+</body>
+</html>

@@ -1,0 +1,52 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Witaj</title>
+
+</head>
+<body>
+
+	<div class="text-center jumbotron">
+	  <h1>Porównywarka cen paliw</h1>
+
+
+    </div>
+
+		<div id="app">
+
+<h1>{{result.name}}</h1>
+<h2>{{result.city}}</h2>
+
+			<br>
+			<br>
+      <label><b>Cena PB95</b></label>
+      <input type="number"  v-model ="pb95Price" required>
+			<label><b>Cena PB98</b></label>
+			<input type="number"  v-model ="pb98Price" required>
+			<label><b>Cena ON</b></label>
+			<input type="number"  v-model ="onPrice" required>
+			<label><b>Cena LPG</b></label>
+			<input type="number"  v-model ="lpgPrice" required>
+
+			<br>
+			  <button @click="setPrices(pb95Price,pb98Price,onPrice,lpgPrice)" >Aktualizuj</button>
+				<h6>{{updateMesage}}</h6>
+			<br>
+			<button @click="getComments" >Wyświetl Komentarze</button>
+
+				<div  v-for="c in comments">
+			    <div >
+			      <p>{{ c.comment }}.</p>
+			      <p>{{ c.rating }}.</p>
+			    </div>
+			  </div>
+
+
+
+	</div>
+	<script src="https://unpkg.com/vue"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script src="stationIndex.js"></script>
+
+</body>
+</html>
