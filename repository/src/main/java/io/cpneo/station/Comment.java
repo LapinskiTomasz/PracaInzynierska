@@ -19,6 +19,9 @@ public class Comment {
     @Column(name = "comment")
     private String comment;
 
+    @Column(name = "author")
+    private String author;
+
     @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
     @JoinColumn(name = "station_id", referencedColumnName = "id",nullable = false)
     private Station station;

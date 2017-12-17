@@ -23,15 +23,6 @@
             </slot>
           </div>
 
-          <div class="modal-body">
-            <slot name="body">
-              default body
-            </slot>
-          </div>
-
-          <div class="modal-footer">
-            <slot name="footer">
-              default footer
               <button class="modal-default-button" @click="$emit('close')">
                 OK
               </button>
@@ -49,6 +40,7 @@
     <div >
       <p>{{ c.comment }}.</p>
       <p>{{ c.rating }}.</p>
+      <h6>{{c.author}}</h6>
     </div>
 
   </div>
@@ -68,12 +60,13 @@
   <button @click="addComment(text,rate)" >Skomentuj</button>
 
   <!-- use the modal component, pass in the prop -->
-  <modal v-if="showModal" @close="showModal = false">
+  <modal v-if="showModal" @close="showModal = false; refresh();">
+
     <!--
       you can use custom content here to overwrite
       default content
     -->
-    <h3 slot="header">{{dodano}}</h3>
+    <h3 slot="header">Dodałeś komentarz</h3>
   </modal>
 
 </template>

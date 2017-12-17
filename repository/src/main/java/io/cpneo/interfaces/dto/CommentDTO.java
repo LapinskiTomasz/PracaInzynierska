@@ -10,4 +10,6 @@ public class CommentDTO {
     private String comment;
 
     private int rating;
+
+    private String author;
 }

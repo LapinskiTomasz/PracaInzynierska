@@ -36,6 +36,9 @@ const vm = new Vue({
         console.log(response.data);
         this.showModal = true;
     }).catch( error => { console.log(error); });
+  },
+  refresh(){
+    window.location.href = 'comments.html';
   }
 
 }

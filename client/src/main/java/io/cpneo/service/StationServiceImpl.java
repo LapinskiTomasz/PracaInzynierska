@@ -1,9 +1,11 @@
 package io.cpneo.service;
 
 
+import io.cpneo.client.User;
 import io.cpneo.interfaces.dto.CommentDTO;
 import io.cpneo.interfaces.dto.StationDTO;
 import io.cpneo.repository.StationRepository;
+import io.cpneo.repository.UserRepository;
 import io.cpneo.station.Address;
 import io.cpneo.station.Comment;
 import io.cpneo.station.Station;
@@ -17,6 +19,9 @@ public class StationServiceImpl implements StationService {
 
     @Autowired
     StationRepository stationRepository;
+
+    @Autowired
+    UserRepository userRepository;
 
     @Override
     public List<StationDTO> getStationListByPrice(String city, String fuel) {
@@ -65,14 +70,16 @@ public class StationServiceImpl implements StationService {
     }
 
     @Override
-    public void addComment(CommentDTO commentDTO) {
+    public void addComment(CommentDTO commentDTO, String token) {
         Station station = stationRepository.findOne(commentDTO.getStationID());
+        User user = userRepository.findByToken(token);
         Comment comment = new Comment();
         List<Comment> commentList;
 
         comment.setStation(station);
         comment.setRating(commentDTO.getRating());
         comment.setComment(commentDTO.getComment());
+        comment.setAuthor(user.getLogin());
 
         if(station.getComments() == null)
             commentList = new LinkedList<>();
@@ -100,6 +107,7 @@ public class StationServiceImpl implements StationService {
             commentDTO.setComment(c.getComment());
             commentDTO.setRating(c.getRating());
             commentDTO.setStationID(c.getId());
+            commentDTO.setAuthor(c.getAuthor());
             commentList.add(commentDTO);
         }
         return commentList;

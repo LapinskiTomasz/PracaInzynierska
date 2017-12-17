@@ -14,7 +14,7 @@ public interface StationService {
 
     public List<StationDTO> getStationListByRating(String city);
 
-    public void addComment(CommentDTO commentDTO);
+    public void addComment(CommentDTO commentDTO, String token);
 
     public List<CommentDTO> getComments(long id);
 

@@ -66,7 +66,7 @@ public class UserController {
     @RequestMapping(value = "/login/comment", method = RequestMethod.POST)
     public GenericMessageDTO addComment(@RequestBody CommentDTO commentDTO, @RequestHeader("Session-Token") String token){
         if(!userService.loggedIn(token)) return new GenericMessageDTO("Not logged",401);
-        stationService.addComment(commentDTO);
+        stationService.addComment(commentDTO, token);
         return new GenericMessageDTO("Comment added", 200);
     }
 
