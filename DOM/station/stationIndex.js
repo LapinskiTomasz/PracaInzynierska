@@ -39,6 +39,10 @@ const vm = new Vue({
     },
     getComments(){
       this.comments = this.result.comments;
+    },
+    logout(){
+      localStorage.removeItem("StationToken");
+      window.location.href = 'stationLogin.html';
     }
   }
   });

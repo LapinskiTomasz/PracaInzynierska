@@ -29,5 +29,7 @@ public class StationDTO {
 
     private String homeNumber;
 
+    private String rating;
+
 
 }

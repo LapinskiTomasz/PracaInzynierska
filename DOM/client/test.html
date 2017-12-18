@@ -1,0 +1,117 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Witaj</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<link rel="stylesheet" type="text/css" href="index.css">
+</head>
+<body >
+
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+	      <div class="container">
+	        <div class="navbar-header">
+	          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+	            <span class="sr-only">Toggle navigation</span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	            <span class="icon-bar"></span>
+	          </button>
+	          <a class="navbar-brand" href="index.html">CPNEO</a>
+	        </div>
+	        <div id="navbar" class="navbar-collapse collapse">
+	          <form class="navbar-form navbar-right">
+
+	            <button type="submit" class="btn btn-success">Zarejestruj się</button>
+							<button type="submit" class="btn btn-success">Zaloguj się</button>
+	          </form>
+	        </div><!--/.navbar-collapse -->
+	      </div>
+	    </nav>
+
+			<div class="jumbotron">
+		 <div class="container">
+			 <h1>Witaj</h1>
+			 <p>W naszej porównywarce możesz odnaleźć najlepszą stację z najtańszym paliwem w twojej okolicy. Wystarczy że podasz nam miasto i rodzaj paliwa które szukasz </p>
+		 </div>
+	 </div>
+
+
+			<div class="row">
+				<div >
+			<input type="text" v-model ="city" placeholder="Podaj miasto..." required class="form-control" id="city">
+				</div>
+				<div >
+			<select v-model='fuel' v-if="!byRating" class="form-control" id="fuel">
+				<option >PB95</option>
+				<option >PB98</option>
+				<option >ON</option>
+				<option >LPG</option>
+			</select>
+				</div>
+
+			<div >
+			<button class="btn btn-default" type="button"><span class="glyphicon glyphicon-search"></span></button>
+			<input type="checkbox" id="checkbox" v-model="byRating">
+			<label>wyszukaj po ocenach</label>
+		</div>
+		</div>
+
+
+		<div class="container">
+    <div class="row col-md-10 col-md-offset-1 custyle">
+    <table class="table table-striped custab">
+    <thead>
+        <tr>
+            <th>Nazwa</th>
+            <th>Adres</th>
+            <th>PB95</th>
+						<th>PB99</th>
+						<th>ON</th>
+						<th>LPG</th>
+            <th class="text-center">Action</th>
+        </tr>
+    </thead>
+            <tr>
+                <td>Orlen super</td>
+                <td>Zakrzów 11A 32-830 Wojnicz</td>
+                <td>5.44</td>
+								<td>3.44</td>
+								<td>1.44</td>
+								<td>2.44</td>
+                <td class="text-center"><button class="btn btn-info btn-xs" type="button"><span class="glyphicon glyphicon-edit"></span> Komentarze</button> </td>
+            </tr>
+						<tr>
+                <td>Orlen</td>
+                <td>Zakrzów 11A 32-830 Wojnicz</td>
+                <td>5.44</td>
+								<td>3.44</td>
+								<td>1.44</td>
+								<td>2.44</td>
+                <td class="text-center"><button class="btn btn-info btn-xs" type="button"><span class="glyphicon glyphicon-edit"></span> Komentarze</button> </td>
+            </tr>
+						<tr>
+                <td>Orlen</td>
+                <td>Zakrzów 11A 32-830 Wojnicz</td>
+                <td>5.44</td>
+								<td>3.44</td>
+								<td>1.44</td>
+								<td>2.44</td>
+                <td class="text-center"><button class="btn btn-info btn-xs" type="button"><span class="glyphicon glyphicon-edit"></span> Komentarze</button> </td>
+            </tr>
+    </table>
+    </div>
+</div>
+
+
+
+
+
+</body>

@@ -9,11 +9,13 @@ import io.cpneo.repository.UserRepository;
 import io.cpneo.station.Address;
 import io.cpneo.station.Comment;
 import io.cpneo.station.Station;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
+@Slf4j
 @Service("StationService")
 public class StationServiceImpl implements StationService {
 
@@ -76,6 +78,7 @@ public class StationServiceImpl implements StationService {
         Comment comment = new Comment();
         List<Comment> commentList;
 
+
         comment.setStation(station);
         comment.setRating(commentDTO.getRating());
         comment.setComment(commentDTO.getComment());
@@ -129,6 +132,14 @@ public class StationServiceImpl implements StationService {
             stationDTO.setHomeNumber(address.getHomeNumber());
             stationDTO.setZipcode(address.getZipcode());
             stationDTO.setComments(entityToCommentDTO(s.getComments()));
+
+            OptionalDouble avg1Opt =s.getComments().stream().mapToDouble(a->a.getRating()).average();
+            log.info(avg1Opt.getAsDouble()+"");
+            if(avg1Opt.isPresent())
+                stationDTO.setRating(String.format("%1.1f",avg1Opt.getAsDouble()).replace(",","."));
+            else
+                stationDTO.setRating("0.0");
+
             stationList.add(stationDTO);
         }
         return stationList;

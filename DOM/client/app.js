@@ -11,11 +11,14 @@ const vm = new Vue({
   data: {
     results: [],
     isLogged:false,
-    byRating:false
+    byRating:false,
+    emptyLoad:false,
+    fuel:"PB95"
   },
   mounted () {
     if(localStorage.getItem('token')!=null) this.isLogged=true;
     sessionStorage.removeItem('stationID');
+    this.emptyLoad = false;
   },
   methods: {
     getPosts(city,fuel) {
@@ -31,6 +34,9 @@ const vm = new Vue({
 
       axios.get(url).then((response) => {
         this.results = response.data;
+        if(Object.keys(this.results).length === 0){
+          this.emptyLoad = true;
+        }
       }).catch( error => { console.log(error); });
     },
     login(){

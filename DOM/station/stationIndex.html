@@ -34,10 +34,12 @@
 			<br>
 			<button @click="getComments" >Wyświetl Komentarze</button>
 
+			<button @click="logout()" >Wyloguj sie</button>
 				<div  v-for="c in comments">
 			    <div >
 			      <p>{{ c.comment }}.</p>
 			      <p>{{ c.rating }}.</p>
+						<h6>{{c.author}}</h6>
 			    </div>
 			  </div>
 

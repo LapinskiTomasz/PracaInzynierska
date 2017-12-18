@@ -90,6 +90,7 @@ public class StationServiceImpl implements StationService{
             commentDTO.setComment(c.getComment());
             commentDTO.setRating(c.getRating());
             commentDTO.setStationID(c.getId());
+            commentDTO.setAuthor(c.getAuthor());
             commentList.add(commentDTO);
         }
         return commentList;
