@@ -1,0 +1,49 @@
+.user_name{
+    font-size:20px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 2px solid white;
+    font-size:15px;
+
+}
+#rate{
+  width: 50px;
+  height: 25;
+}
+.koment {
+  padding: 10px;
+  background: #ccc;
+}
+.row{
+    display:flex;
+  justify-content:center;
+  background: rgba(204, 204, 204, 0.6);
+
+}
+body {
+   background-image: url("back3.jpeg");
+-webkit-background-size: cover;
+  -moz-background-size: cover;
+  -o-background-size: cover;
+  background-size: cover;
+  display:flex;
+  flex-direction:column;
+}
+.pull-right{
+  color: black
+}
+
+footer{
+  margin-top:auto;
+  background-color: #424558;
+  height: 35px;
+    text-align: center;
+    color: #CCC;
+}
+
+footer p {
+    padding: 10.5px;
+    margin: 0px;
+    line-height: 100%;
+}

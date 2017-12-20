@@ -7,12 +7,14 @@ const vm = new Vue({
     onPrice:0,
     lpgPrice:0,
     updateMesage:"",
-    comments: []
+    comments: [],
+    viewComment:false,
 
   },
   mounted () {
     this.getStation();
     comments =[];
+    this.viewComment=false;
   },
   methods: {
     getStation(){
@@ -39,7 +41,14 @@ const vm = new Vue({
     },
     getComments(){
       this.comments = this.result.comments;
+      this.viewComment = true;
     },
+
+    closeComments(){
+      this.comments = [];
+      this.viewComment = false;
+    },
+
     logout(){
       localStorage.removeItem("StationToken");
       window.location.href = 'stationLogin.html';

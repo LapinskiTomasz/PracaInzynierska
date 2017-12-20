@@ -28,16 +28,13 @@
 
     /* Footer */
 
-footer{
-   background-color: #424558;
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 35px;
-    text-align: center;
-    color: #CCC;
-}
+    footer{
+      margin-top:auto;
+      background-color: #424558;
+      height: 35px;
+        text-align: center;
+        color: #CCC;
+    }
 
 footer p {
     padding: 10.5px;
@@ -51,6 +48,8 @@ body {
   -moz-background-size: cover;
   -o-background-size: cover;
   background-size: cover;
+  display:flex;
+  flex-direction:column;
 }
 
 .jumbotron {

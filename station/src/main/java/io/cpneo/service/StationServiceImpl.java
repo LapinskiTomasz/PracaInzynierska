@@ -2,19 +2,23 @@ package io.cpneo.service;
 
 
 import io.cpneo.interfaces.dto.CommentDTO;
+import io.cpneo.interfaces.dto.StatisticsDTO;
 import io.cpneo.service.dto.GenericMessageDTO;
 import io.cpneo.interfaces.dto.StationDTO;
 import io.cpneo.service.dto.StationRegisterDTO;
 import io.cpneo.repository.StationRepository;
 import io.cpneo.station.*;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.OptionalDouble;
 import java.util.UUID;
 
+@Slf4j
 @Service("StationService")
 public class StationServiceImpl implements StationService{
 
@@ -112,7 +116,79 @@ public class StationServiceImpl implements StationService{
             stationDTO.setZipcode(address.getZipcode());
             stationDTO.setComments(entityToCommentDTO(s.getComments()));
 
+        OptionalDouble avg1Opt =s.getComments().stream().mapToDouble(a->a.getRating()).average();
+        if(avg1Opt.isPresent())
+            stationDTO.setRating(String.format("%1.1f",avg1Opt.getAsDouble()).replace(",","."));
+        else
+            stationDTO.setRating("0.0");
+
+        stationDTO.setStatistics(getStatistic(stationDTO.getComments()));
+
         return stationDTO;
+    }
+
+
+
+    private StatisticsDTO getStatistic(List<CommentDTO> comments){
+
+        int size = comments.size();
+        if(size==0){
+            StatisticsDTO statistics = new StatisticsDTO();
+
+            statistics.setOneStats(0);
+            statistics.setTwoStats(0);
+            statistics.setThreeStats(0);
+            statistics.setFourStats(0);
+            statistics.setFiveStats(0);
+
+            return statistics;
+
+        }
+
+        int fives = 0;
+        int fours = 0;
+        int threes = 0;
+        int twos = 0;
+        int ones = 0;
+
+        Double percent;
+
+
+        for( CommentDTO c: comments){
+
+            switch (c.getRating()){
+                case 1: ones++;
+                    break;
+                case 2: twos++;
+                    break;
+                case 3: threes++;
+                    break;
+                case 4: fours++;
+                    break;
+                case 5: fives++;
+                    break;
+            }
+
+        }
+
+
+
+
+        StatisticsDTO statistics = new StatisticsDTO();
+
+        percent = ((double)ones/size)*100;
+        statistics.setOneStats(percent.intValue());
+        percent = ((double)twos/size)*100;
+        statistics.setTwoStats(percent.intValue());
+        percent = ((double)threes/size)*100;
+        statistics.setThreeStats(percent.intValue());
+        percent = ((double)fours/size)*100;
+        statistics.setFourStats(percent.intValue());
+        percent = ((double)fives/size)*100;
+        statistics.setFiveStats(percent.intValue());
+
+
+        return statistics;
     }
 
 }

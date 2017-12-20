@@ -13,15 +13,26 @@ const vm = new Vue({
     isLogged:false,
     byRating:false,
     emptyLoad:false,
-    fuel:"PB95"
+    fuel:"PB95",
+    city:"",
   },
   mounted () {
     if(localStorage.getItem('token')!=null) this.isLogged=true;
     sessionStorage.removeItem('stationID');
     this.emptyLoad = false;
+    if(sessionStorage.getItem('city')!=null){
+      this.getPosts(sessionStorage.getItem('city'),sessionStorage.getItem('fuel'));
+      this.city=sessionStorage.getItem('city');
+      this.fuel=sessionStorage.getItem('fuel');
+      this.byRating=sessionStorage.getItem('byRating');
+      sessionStorage.removeItem('city');
+      sessionStorage.removeItem('fuel');
+      sessionStorage.removeItem('byRating');
+    }
   },
   methods: {
     getPosts(city,fuel) {
+
       let url
       if(this.byRating){
          url = buildRatingUrl(city);
@@ -41,6 +52,7 @@ const vm = new Vue({
     },
     login(){
       window.location.href = 'login.html';
+      console.log("LOGIN");
     },
     logout(){
       localStorage.removeItem('token');
@@ -48,6 +60,9 @@ const vm = new Vue({
     },
     getComments(id){
       console.log(id);
+      sessionStorage.setItem('fuel',this.fuel);
+      sessionStorage.setItem('city',this.city);
+      sessionStorage.setItem('byRating',this.byRating);
       sessionStorage.setItem('stationID', id);
       window.location.href = 'comments.html';
     },

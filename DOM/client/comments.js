@@ -16,7 +16,8 @@ const vm = new Vue({
     comments: [],
     isLogged:false,
     showModal: false,
-    dodano: 'SUPER EKSTRA GIT'
+    rate:1,
+    text:""
   },
   mounted () {
     if(localStorage.getItem('token')!=null) this.isLogged=true;
@@ -35,6 +36,9 @@ const vm = new Vue({
       axios.post('http://localhost:8080/api/login/comment',{stationID:station, comment:text, rating:rate},{headers: {'Session-Token': token}}).then((response) =>{
         console.log(response.data);
         this.showModal = true;
+        this.getComments(sessionStorage.getItem('stationID'));
+        this.text="";
+        this.rate =1;
     }).catch( error => { console.log(error); });
   },
   refresh(){

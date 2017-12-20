@@ -1,14 +1,22 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<link rel="stylesheet" type="text/css" href="modal.css">
+
 <title>Witaj</title>
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+			<link rel="stylesheet" type="text/css" href="comments.css">
+      <link rel="stylesheet" type="text/css" href="modal.css">
 
 </head>
 <body>
-
-<h1>Komentarze</h1>
-
 
 <!-- template for the modal component -->
 <script type="text/x-template" id="modal-template">
@@ -36,40 +44,62 @@
 
 <div id="app">
 
-  <div  v-for="c in comments">
-    <div >
-      <p>{{ c.comment }}.</p>
-      <p>{{ c.rating }}.</p>
-      <h6>{{c.author}}</h6>
-    </div>
 
-  </div>
 
-  <template v-if='isLogged'>
-  <label><b>Dodaj komentarz</b></label></br>
-  <textarea v-model ="text"></textarea>
-  <label><b>Wybierz ocene</b></label>
-  <select v-model='rate'>
-    <option >1</option>
-    <option >2</option>
-    <option >3</option>
-    <option >4</option>
-    <option >5</option>
-  </select>
+  <div class="container" >
+            <div class="row" >
+                <div class="col-md-8">
+                  <div class="page-header">
+                    <h1><small class="pull-right">{{comments.length}} komentarzy</small> Komentarze </h1>
+                  </div>
+                   <div class="comments-list">
+                       <div class="media" v-for="c in comments">
+                           <p class="pull-right"><small>Ocena: {{c.rating}}</small></p>
+                            <a class="media-left" href="#">
+                              <img src="http://lorempixel.com/40/40/people/1/">
+                            </a>
+                            <div class="media-body">
 
-  <button @click="addComment(text,rate)" >Skomentuj</button>
+                              <h4 class="media-heading user_name">{{c.author}}</h4>
+                              {{c.comment}}
 
-  <!-- use the modal component, pass in the prop -->
-  <modal v-if="showModal" @close="showModal = false; refresh();">
 
-    <!--
-      you can use custom content here to overwrite
-      default content
-    -->
+                            </div>
+                          </div>
+                      </div>
+
+
+                     <div class="koment" v-if='isLogged'>
+                       <div>
+                      <textarea class="form-control" id="text" name="text" v-model ="text" placeholder="Napisz co sądzisz..." rows="5"></textarea>
+                        <h6 class="pull-right" id="count_message"></h6>
+                        <button class="btn btn-info " @click="addComment(text,rate)" >Dodaj komentarz</button>
+                        Twoja ocena:
+                        <select v-model='rate' id="rate">
+                      <option >1</option>
+                      <option >2</option>
+                      <option >3</option>
+                      <option >4</option>
+                      <option >5</option>
+                      </select>
+                   </div>
+                    </div>
+
+
+                   </div>
+
+
+                </div>
+
+            </div>
+
+
+  <!-- <modal v-if="showModal" @close="showModal = false; refresh();">
+
     <h3 slot="header">Dodałeś komentarz</h3>
-  </modal>
+  </modal> -->
 
-</template>
+
 
 </div>
 
@@ -80,4 +110,7 @@
 <script src="comments.js"></script>
 
 </body>
+<footer>
+        <p>© 2017<a style="color:#0a93a6; text-decoration:none;" href="#"> Tomasz Łapiński</a>, All rights reserved 2016-2017.</p>
+    </footer>
 </html>

@@ -1,0 +1,107 @@
+.hedrate{
+display: flex;
+flex-direction:row;
+ justify-content:flex-end;
+ justify-content:space-around;
+}
+
+.head{
+  display: flex;
+  flex-direction:column;
+
+  align-items:center;
+}
+.crate{
+  display: flex;
+  flex-direction:column;
+
+
+    width: 500;
+
+}
+.glyphicon { margin-right:5px;}
+.rating .glyphicon {font-size: 22px;}
+.rating-num { margin-top:0px;font-size: 54px; }
+.progress { margin-bottom: 5px;}
+.progress-bar { text-align: left; }
+.rating-desc .col-md-3 {padding-right: 0px;}
+.sr-only { margin-left: 5px;overflow: visible;clip: auto; }
+
+
+/* fuels */
+
+.priceBoxes{
+  padding-top: 40;
+  flex-wrap:wrap;
+  display: flex;
+  flex-direction:row;
+  justify-content:space-around;
+}
+
+.fuelPrice{
+  display: flex;
+  flex-direction:column;
+  justify-content: center;
+}
+
+.actual{
+  padding-top: 40;
+  display: flex;
+  flex-direction:row;
+  justify-content: center;
+}
+
+.message{
+  font-weight: bold;
+  color: green;
+}
+
+/* comments */
+
+.user_name{
+    font-size:14px;
+    font-weight: bold;
+}
+.comments-list .media{
+    border-bottom: 1px dotted #ccc;
+}
+
+#rate{
+  width: 50px;
+  height: 25;
+}
+.koment {
+  padding: 10px;
+  background: #ccc;
+}
+#row{
+    display:flex;
+  justify-content:center;
+  background: rgba(204, 204, 204, 0.6);
+
+}
+.pull-right{
+
+    font-weight: bold;
+}
+
+body {
+background-color: #ccc;
+display:flex;
+flex-direction:column;
+}
+
+
+footer{
+  margin-top:auto;
+  background-color: #424558;
+  height: 35px;
+    text-align: center;
+    color: #CCC;
+}
+
+footer p {
+    padding: 10.5px;
+    margin: 0px;
+    line-height: 100%;
+}

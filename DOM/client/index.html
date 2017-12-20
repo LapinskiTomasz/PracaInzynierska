@@ -32,12 +32,12 @@
 								<a class="navbar-brand" href="index.html">CPNEO</a>
 							</div>
 							<div id="navbar" class="navbar-collapse collapse">
-								<form class="navbar-form navbar-right">
+								<div class="navbar-form navbar-right">
 
 									<button @click="register()" v-if="!isLogged" class="btn btn-success">Zarejestruj się</button>
 									<button @click="login()" v-if="!isLogged" class="btn btn-success">Zaloguj się</button>
 									<button @click="logout()" v-if="isLogged" class="btn btn-success">Wyloguj się</button>
-								</form>
+								</div>
 							</div><!--/.navbar-collapse -->
 						</div>
 					</nav>

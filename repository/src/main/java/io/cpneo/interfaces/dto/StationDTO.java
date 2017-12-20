@@ -31,5 +31,7 @@ public class StationDTO {
 
     private String rating;
 
+    private StatisticsDTO statistics;
+
 
 }
