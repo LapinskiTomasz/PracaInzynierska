@@ -60,7 +60,7 @@
           <div class="alert alert-danger" v-if="passIsShort">Hasło musi zwierać conajmniej 6 znaków</div>
           <input type="password" id="inputPassword" class="form-control" placeholder="Powtórz hasło" v-model ="passwordRep" required>
           <div class="alert alert-danger" v-if="passIsNotSame">Hasła nie zgadzają się</div>
-          <button class="btn btn-lg btn-primary btn-block btn-signin" @click="registerUser(login,password,email,passwordRep)">Zarejstruj się</button>
+          <button class="btn btn-lg btn-primary btn-block btn-signin" @click="registerUser(login,password,mail,passwordRep)">Zarejstruj się</button>
       </div><!-- /form -->
       <div v-if="isRegistered === false" class="alert alert-danger">
           Taki login już istnieje

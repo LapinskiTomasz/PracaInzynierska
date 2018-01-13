@@ -3,6 +3,7 @@ package io.cpneo.service;
 import io.cpneo.client.User;
 import io.cpneo.client.UserCredentials;
 import io.cpneo.repository.UserRepository;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

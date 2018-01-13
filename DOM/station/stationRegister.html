@@ -1,57 +1,113 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>Witaj</title>
+<title>CPNEO</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.1/css/font-awesome.min.css">
+
+<!-- Google Fonts -->
+<link href='https://fonts.googleapis.com/css?family=Passion+One' rel='stylesheet' type='text/css'>
+<link href='https://fonts.googleapis.com/css?family=Oxygen' rel='stylesheet' type='text/css'>
+
+<link rel="stylesheet" type="text/css" href="stationLogin.css">
 
 </head>
 <body>
 
-	<div class="text-center jumbotron">
-	  <h1>Logowanie</h1>
+  <div id="app">
+    <div>
+          <nav class="navbar navbar-inverse ">
+                <div class="container">
+                  <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                      <span class="sr-only">Toggle navigation</span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                      <span class="icon-bar"></span>
+                    </button>
+                    <a class="navbar-brand" href="stationRegister.html">CPNEO - Stacja</a>
+                  </div>
+                  <div id="navbar" class="navbar-collapse collapse">
+                    <div class="navbar-form navbar-right">
 
+                      <button @click="goToLogin()" class="btn btn-success">Zaloguj się</button>
+                    </div>
+                  </div><!--/.navbar-collapse -->
+                </div>
+              </nav>
+            </div>
+		<div class="flow">
+    <div class="container">
+  <div class="card card-container">
+      <!-- <img class="profile-img-card" src="//lh3.googleusercontent.com/-6V8xOA6M7BA/AAAAAAAAAAI/AAAAAAAAAAA/rzlHcD0KYwo/photo.jpg?sz=120" alt="" /> -->
+      <img id="profile-img" class="profile-img-card" src="gas.png" />
+      <p id="profile-name" class="profile-name-card">Rejestracja - dane logowania </p>
+      <div class="form-signin">
+          <span id="reauth-email" class="reauth-email"></span>
+          <input type="text" id="inputEmail" class="form-control" placeholder="Login" v-model ="login" >
+          <div class="alert alert-danger" v-if="emptyLogin">Pole login jest puste</div>
 
-    </div>
+          <input type="text" id="inputEmail" class="form-control" placeholder="E-mail" v-model ="email" >
+          <div class="alert alert-danger" v-if="emptyEmail">Pole E-mail jest puste</div>
+          <div class="alert alert-danger" v-if="emailBroken">Podany adres E-mail powinien zawierac znak '@' oraz adres domeny</div>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Hasło" v-model ="password" >
+          <div class="alert alert-danger" v-if="emptyPass">Pole hasło jest puste</div>
+          <div class="alert alert-danger" v-if="passIsShort">Hasło musi zwierać conajmniej 6 znaków</div>
+          <input type="password" id="inputPassword" class="form-control" placeholder="Powtórz hasło" v-model ="passwordRep" >
+          <div class="alert alert-danger" v-if="passIsNotSame">Hasła nie zgadzają się</div>
+					</div><!-- /form -->
+				</div><!-- /card-container -->
+			</div><!-- /container -->
+			  <div class="container">
+					<div class="card card-container">
+						<img id="profile-img" class="profile-img-card" src="gas.png" />
+						<p id="profile-name" class="profile-name-card">Rejestracja - dane adresowe </p>
+						<div class="form-signin">
+							<span id="reauth-email" class="reauth-email"></span>
+					<input type="text" id="inputEmail" class="form-control" placeholder="Nazwa stacji" v-model ="name" >
+					<div class="alert alert-danger" v-if="emptyName">Pole nazwa stacji jest puste</div>
+					<input type="text" id="inputEmail" class="form-control" placeholder="Ulica" v-model ="street" >
+					<div class="alert alert-danger" v-if="emptyStreet">Pole ulica jest puste</div>
+					<input type="text" id="inputEmail" class="form-control" placeholder="Numer domu" v-model ="homeNumber" >
+					<div class="alert alert-danger" v-if="emptyHomeNumber">Pole numer domu jest puste</div>
+					<input type="text" id="inputEmail" class="form-control" placeholder="Miasto" v-model ="city" >
+					<div class="alert alert-danger" v-if="emptyCity">Pole miasto jest puste</div>
+					<input type="text" id="inputEmail" class="form-control" placeholder="Kod pocztowy" v-model ="zipCode" >
+					<div class="alert alert-danger" v-if="emptyZipCode">Pole kod pocztowy jest puste</div>
+					<input type="text" id="inputEmail" class="form-control" placeholder="Kod rejestracyjny" v-model ="code" >
+					<div class="alert alert-danger" v-if="emptyCode">Podaj kod rejestracyjny</div>
 
-		<div id="app">
+      </div><!-- /form -->
 
-      <div class="container">
-          <label><b>Nazwa stacji</b></label>
-          <input type="text" v-model ="name" required>
-          <br>
-          <label><b>Login</b></label>
-          <input type="text" v-model ="login" required>
-          <br>
-  				<label><b>Hasło</b></label>
-          <input type="password" v-model ="password" required>
-          <br>
-					<label><b>Ulica</b></label>
-					<input type="text" v-model ="street" required>
-          <br>
-					<label><b>Numer domu</b></label>
-					<input type="text" v-model ="homeNumber" required>
-          <br>
-					<label><b>Miasto</b></label>
-					<input type="text" v-model ="city" required>
-          <br>
-					<label><b>Kod pocztowy</b></label>
-					<input type="text" v-model ="zipCode" required>
-          <br>
-					<label><b>Kod rejestracji</b></label>
-					<input type="text" v-model ="code" required>
-          <br>
-
-          <button @click="registerStation(name,login,password,street,homeNumber,city,zipCode,code)" >register</button>
-
-        </div>
-
-				<h6>{{registerMessage}}</h6>
+  </div><!-- /card-container -->
+</div><!-- /container -->
+</div><!-- /flow -->
+<div class="registerPosition">
+	<div class="register">
+		  <div class="container-fluid">
+			<button class="btn btn-lg btn-primary btn-block btn-signin" @click="registerStation(name,login,password,street,homeNumber,city,zipCode,code)">Zarejstruj się</button>
+		</div>
+			<div v-if="registerMessage != ''" class="alert alert-danger">
+					{{registerMessage}}
+			</div>
 	</div>
+</div>
+</div>
 	<script src="https://unpkg.com/vue"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script src="https://unpkg.com/vuex"></script>
 	<!-- <script src="store.js"></script> -->
 	<script src="stationRegister.js"></script>
 
-
+<!-- <button @click="registerStation(name,login,password,street,homeNumber,city,zipCode,code)" >register</button> -->
 </body>
+<footer>
+        <p>© 2017<a style="color:#0a93a6; text-decoration:none;" href="#"> Tomasz Łapiński</a>, All rights reserved 2016-2017.</p>
+    </footer>
 </html>

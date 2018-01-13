@@ -1,0 +1,35 @@
+footer{
+  margin-top:auto;
+  background-color: #424558;
+  height: 35px;
+    text-align: center;
+    color: #CCC;
+}
+
+footer p {
+padding: 10.5px;
+margin: 0px;
+line-height: 100%;
+}
+
+body {
+background-image: url("back3.jpeg");
+-webkit-background-size: cover;
+-moz-background-size: cover;
+-o-background-size: cover;
+background-size: cover;
+display:flex;
+flex-direction:column;
+}
+
+.mapa{
+  margin-top:80;
+  border-style: ridge;
+    border-width: 12px;
+}
+
+.mapPos{
+  display:flex;
+  flex-direction: row;
+  justify-content: center;
+}

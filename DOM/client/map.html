@@ -1,0 +1,63 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Witaj</title>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+<link rel="stylesheet" type="text/css" href="map.css">
+</head>
+<body>
+
+
+		<div id="app">
+
+      <nav class="navbar navbar-inverse navbar-fixed-top">
+						<div class="container">
+							<div class="navbar-header">
+								<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+									<span class="sr-only">Toggle navigation</span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+									<span class="icon-bar"></span>
+								</button>
+								<a class="navbar-brand" href="index.html">CPNEO</a>
+							</div>
+							<div id="navbar" class="navbar-collapse collapse">
+								<div class="navbar-form navbar-right">
+
+									<button @click="register()" v-if="!isLogged" class="btn btn-success">Zarejestruj się</button>
+									<button @click="login()" v-if="!isLogged" class="btn btn-success">Zaloguj się</button>
+									<button @click="logout()" v-if="isLogged" class="btn btn-success">Wyloguj się</button>
+								</div>
+							</div><!--/.navbar-collapse -->
+						</div>
+					</nav>
+
+      <div class="mapPos">
+
+
+      <gmap-map :center="center" :zoom="10" style="width: 90%; height: 80%" class="mapa">
+        <gmap-info-window :options="infoOptions" :position="infoWindowPos" :opened="infoWinOpen" @closeclick="infoWinOpen=false">
+         {{infoContent}}
+       </gmap-info-window>
+
+       <gmap-marker :key="i" v-for="(m,i) in markers" :position="m.position" :clickable="true" @click="toggleInfoWindow(m,i)"></gmap-marker>
+     </gmap-map>
+    </div>
+    </div>
+    <script src="https://unpkg.com/vue"></script>
+    <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+    <script src="vue-google-maps.js"></script>
+    <script src="map.js"></script>
+
+  </body>
+  <footer>
+          <p>© 2017<a style="color:#0a93a6; text-decoration:none;" href="#"> Tomasz Łapiński</a>, All rights reserved 2016-2017.</p>
+      </footer>
+  </html>

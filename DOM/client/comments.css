@@ -18,7 +18,7 @@
 .row{
     display:flex;
   justify-content:center;
-  background: rgba(204, 204, 204, 0.6);
+  background: rgba(204, 204, 204, 0.9);
 
 }
 body {

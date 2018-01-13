@@ -1,9 +1,9 @@
 
-function buildPriceUrl (city,fuel) {
-  return "http://localhost:8080/api/compare/price" + "?city="+city+"&fuel="+fuel
+function buildPriceUrl (city,fuel,dist) {
+  return "http://localhost:8080/api/compare/price" + "?city="+city+"&fuel="+fuel+"&distance="+dist
 }
-function buildRatingUrl (city) {
-  return "http://localhost:8080/api/compare/rating" + "?city="+city
+function buildRatingUrl (city,dist) {
+  return "http://localhost:8080/api/compare/rating" + "?city="+city+"&distance="+dist
 }
 
 const vm = new Vue({
@@ -14,7 +14,10 @@ const vm = new Vue({
     byRating:false,
     emptyLoad:false,
     fuel:"PB95",
-    city:"",
+    city:"Wojnicz",
+    distance:30,
+    checkedStations:[],
+    userPosition:'',
   },
   mounted () {
     if(localStorage.getItem('token')!=null) this.isLogged=true;
@@ -24,27 +27,30 @@ const vm = new Vue({
       this.getPosts(sessionStorage.getItem('city'),sessionStorage.getItem('fuel'));
       this.city=sessionStorage.getItem('city');
       this.fuel=sessionStorage.getItem('fuel');
-      this.byRating=sessionStorage.getItem('byRating');
+      if(sessionStorage.getItem('byRating') === null) this.byRating=false;
       sessionStorage.removeItem('city');
       sessionStorage.removeItem('fuel');
       sessionStorage.removeItem('byRating');
+      sessionStorage.removeItem('positions');
     }
   },
   methods: {
     getPosts(city,fuel) {
 
       let url
-      if(this.byRating){
-         url = buildRatingUrl(city);
+      if(fuel === "Ocena"){
+         url = buildRatingUrl(city,this.distance);
+         this.byRating = true;
         console.log("PO OCENIE");
       }
       else{
-         url = buildPriceUrl(city,fuel);
+         url = buildPriceUrl(city,fuel,this.distance);
         console.log("PO CENIE");
       }
 
       axios.get(url).then((response) => {
-        this.results = response.data;
+        this.results = response.data.stationsDTO;
+        this.userPosition = response.data.userPosition;
         if(Object.keys(this.results).length === 0){
           this.emptyLoad = true;
         }
@@ -68,6 +74,14 @@ const vm = new Vue({
     },
     register(){
       window.location.href = 'register.html';
+    },
+    viewMap(){
+      sessionStorage.setItem('positions',JSON.stringify(this.checkedStations));
+      sessionStorage.setItem('userPosition',JSON.stringify(this.userPosition));
+      sessionStorage.setItem('fuel',this.fuel);
+      sessionStorage.setItem('city',this.city);
+      sessionStorage.setItem('byRating',this.byRating);
+      window.location.href = 'map.html';
     }
   }
 });

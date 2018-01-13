@@ -55,20 +55,36 @@
 					<input type="text" v-model ="city" placeholder="Podaj miasto..." required class="form-control" id="city">
 						</div>
 						<div >
-					<select v-model='fuel' v-if="!byRating" class="form-control" id="fuel">
+					<select v-model='distance' class="form-control" id="fuel">
+						<option value="10" >+10 km</option>
+						<option value="15" >+20 km</option>
+						<option value="30">+30 km</option>
+						<option value="50">+50 km</option>
+						<option value="75">+75 km</option>
+						<option value="100">+100 km</option>
+					</select>
+						</div>
+						<div >
+					<select v-model='fuel' class="form-control" id="fuel">
 						<option >PB95</option>
 						<option >PB98</option>
 						<option >ON</option>
 						<option >LPG</option>
+						<option> Ocena </option>
 					</select>
 						</div>
 
 					<div >
-					<button class="btn btn-default" @click="getPosts(city,fuel)"><span class="glyphicon glyphicon-search"></span></button>
-					<input type="checkbox" id="checkbox" v-model="byRating">
-					<label>wyszukaj po ocenach</label>
+					<button class="btn btn-default" @click="getPosts(city,fuel)" id="search"><span class="glyphicon glyphicon-search">Szukaj</span></button>
 				</div>
 				</div>
+
+				<!-- <div class="col-xs-6">
+          <div class="range range-success">
+            <input type="range" name="range" min="1" max="100" value="50" onchange="rangeSuccess.value=value">
+            <output id="rangeSuccess">50</output> <div class="kilometers">KM</div>
+          </div>
+        </div> -->
 
 
 				<div class="container" v-if="!(Object.keys(results).length === 0)">
@@ -83,7 +99,9 @@
 								<th>ON</th>
 								<th>LPG</th>
 								<th>Ocena</th>
+								<th>Odległość</th>
 								<th class="text-center"></th>
+								<th class="text-center"><button class="btn btn-info btn-xs" @click="viewMap()"><span class="glyphicon glyphicon-edit"></span> Zobacz na mapie</button></th>
 						</tr>
 				</thead>
 								<tr v-for="result in results">
@@ -94,7 +112,14 @@
 										<td>{{ result.onprice }}</td>
 										<td>{{ result.lpgprice }}</td>
 										<td>{{ result.rating }}</td>
-										<td class="text-center"><button class="btn btn-info btn-xs" @click="getComments(result.id)"><span class="glyphicon glyphicon-edit"></span> Komentarze</button> </td>
+										<td>{{ result.distance }}</td>
+										<td class="text-center"><button class="btn btn-info btn-xs" @click="getComments(result.id)"><span class="glyphicon glyphicon-edit"></span> Komentarze</button></td>
+										<td>
+											<div class="form-check">
+										<label>
+											<input type="checkbox" name="check" :value="result.position" v-model="checkedStations"> <span class="label-text"></span>
+											</label>
+											</div> </td>
 								</tr>
 				</table>
 				</div>

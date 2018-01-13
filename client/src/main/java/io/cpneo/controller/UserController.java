@@ -6,6 +6,7 @@ import io.cpneo.client.UserCredentials;
 import io.cpneo.interfaces.dto.CommentDTO;
 import io.cpneo.interfaces.dto.GenericMessageDTO;
 import io.cpneo.interfaces.dto.StationDTO;
+import io.cpneo.interfaces.dto.StationsDTO;
 import io.cpneo.repository.UserRepository;
 import io.cpneo.service.StationService;
 import io.cpneo.service.UserService;
@@ -49,13 +50,13 @@ public class UserController {
 
 
     @RequestMapping(value = "/compare/price", method = RequestMethod.GET)
-    public List<StationDTO> compareStations(@RequestParam(value="city") String city, @RequestParam(value="fuel") String fuel) {
-    return stationService.getStationListByPrice(city,fuel);
+    public StationsDTO compareStations(@RequestParam(value="city") String city, @RequestParam(value="fuel") String fuel, @RequestParam(value ="distance") int distance) {
+    return stationService.getStationListByPrice(city,fuel,distance);
     }
 
     @RequestMapping(value = "/compare/rating", method = RequestMethod.GET)
-    public List<StationDTO> compareStations(@RequestParam(value="city") String city) {
-        return stationService.getStationListByRating(city);
+    public StationsDTO compareStations(@RequestParam(value="city") String city, @RequestParam(value ="distance") int distance) {
+        return stationService.getStationListByRating(city,distance);
     }
 
     @RequestMapping(value = "/comments", method = RequestMethod.GET)

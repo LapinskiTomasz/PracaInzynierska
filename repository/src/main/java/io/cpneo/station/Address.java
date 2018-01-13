@@ -25,6 +25,12 @@ public class Address {
     @Column(name = "home_number")
     private String homeNumber;
 
+    @Column(name = "lat")
+    private String lat;
+
+    @Column(name = "lng")
+    private String lng;
+
     @OneToOne
     @JoinColumn(name = "station_id", referencedColumnName = "id")
     private Station station;

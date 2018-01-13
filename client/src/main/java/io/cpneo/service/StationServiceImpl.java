@@ -1,18 +1,25 @@
 package io.cpneo.service;
 
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.cpneo.client.User;
 import io.cpneo.interfaces.dto.CommentDTO;
+import io.cpneo.interfaces.dto.PositionDTO;
 import io.cpneo.interfaces.dto.StationDTO;
+import io.cpneo.interfaces.dto.StationsDTO;
 import io.cpneo.repository.StationRepository;
 import io.cpneo.repository.UserRepository;
 import io.cpneo.station.Address;
 import io.cpneo.station.Comment;
 import io.cpneo.station.Station;
 import lombok.extern.slf4j.Slf4j;
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 
 @Slf4j
@@ -25,34 +32,70 @@ public class StationServiceImpl implements StationService {
     @Autowired
     UserRepository userRepository;
 
-    @Override
-    public List<StationDTO> getStationListByPrice(String city, String fuel) {
+    @Autowired
+    DistanceService distanceService;
 
-        ArrayList<Station> stationList=stationRepository.findAllByCity(city);
+    protected ObjectMapper mapper = new ObjectMapper();
+
+    protected TypeReference<HashMap<String, Object>> typeRef
+            = new TypeReference<HashMap<String, Object>>() {
+    };
+
+    protected Map<String, Object> jsonResponse;
+
+    @Override
+    public StationsDTO getStationListByPrice(String address, String fuel, int distance) {
+        ArrayList<StationDTO> stationList = new ArrayList<>();
+        StationsDTO stationsDTO = new StationsDTO();
+        if(address.equals(""))
+            stationList = (ArrayList)entityToStationDTO((ArrayList<Station>)stationRepository.findAll());
+        else
+            try {
+                stationsDTO=getStationsInCircle(address,distance);
+                stationList=stationsDTO.getStationsDTO();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+        stationList = (ArrayList)removeZeroStation(stationList);
 
         if(fuel.equals("PB95")){
-            stationList.sort(Comparator.comparing(Station::getPB95Price));
+            stationList.sort(Comparator.comparing(StationDTO::getPB95Price));
         }
         if(fuel.equals("PB98")){
-            stationList.sort(Comparator.comparing(Station::getPB98Price));
+            stationList.sort(Comparator.comparing(StationDTO::getPB98Price));
         }
         if(fuel.equals("ON")){
-            stationList.sort(Comparator.comparing(Station::getONPrice));
+            stationList.sort(Comparator.comparing(StationDTO::getONPrice));
         }
         if(fuel.equals("LPG")){
-            stationList.sort(Comparator.comparing(Station::getLPGPrice));
+            stationList.sort(Comparator.comparing(StationDTO::getLPGPrice));
         }
 
-        return entityToStationDTO(stationList);
+        stationsDTO.setStationsDTO(stationList);
+
+        return stationsDTO;
     }
 
     @Override
-    public List<StationDTO> getStationListByRating(String city) {
-        ArrayList<Station> stationList=stationRepository.findAllByCity(city);
+    public StationsDTO getStationListByRating(String address, int distance) {
+        ArrayList<StationDTO> stationList = new ArrayList<>();
+        StationsDTO stationsDTO = new StationsDTO();
+        if(address.equals(""))
+            stationList = (ArrayList)entityToStationDTO((ArrayList<Station>)stationRepository.findAll());
+        else
+            try {
+                stationsDTO=getStationsInCircle(address,distance);
+                stationList=stationsDTO.getStationsDTO();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
-        Comparator<Station> comparator = new Comparator<Station>() {
+        stationList = (ArrayList)removeZeroStation(stationList);
+
+        Comparator<StationDTO> comparator = new Comparator<StationDTO>() {
             @Override
-            public int compare(Station o1, Station o2) {
+            public int compare(StationDTO o1, StationDTO o2) {
                OptionalDouble avg1Opt =o1.getComments().stream().mapToDouble(a->a.getRating()).average();
                OptionalDouble avg2Opt =o2.getComments().stream().mapToDouble(a->a.getRating()).average();
 
@@ -68,7 +111,8 @@ public class StationServiceImpl implements StationService {
         };
 
         stationList.sort(comparator);
-        return entityToStationDTO(stationList);
+        stationsDTO.setStationsDTO(stationList);
+        return stationsDTO;
     }
 
     @Override
@@ -134,7 +178,7 @@ public class StationServiceImpl implements StationService {
             stationDTO.setComments(entityToCommentDTO(s.getComments()));
 
             OptionalDouble avg1Opt =s.getComments().stream().mapToDouble(a->a.getRating()).average();
-            log.info(avg1Opt.getAsDouble()+"");
+
             if(avg1Opt.isPresent())
                 stationDTO.setRating(String.format("%1.1f",avg1Opt.getAsDouble()).replace(",","."));
             else
@@ -144,6 +188,91 @@ public class StationServiceImpl implements StationService {
         }
         return stationList;
     }
+
+    public List<StationDTO> removeZeroStation(List<StationDTO> stationList){
+
+        List<StationDTO> list = stationList;
+        for(StationDTO s: list){
+            if(s.getPB95Price() == 0 || s.getPB98Price() == 0 || s.getONPrice() == 0 || s.getLPGPrice() == 0){
+                list.remove(s);
+            }
+        }
+
+        return list;
+    }
+
+    public StationsDTO getStationsInCircle(String address, int distance) throws IOException {
+        ArrayList<StationDTO> stationsInCircle = new ArrayList<>();
+        String addr = address.replace(" ","+");
+        String url ="https://maps.googleapis.com/maps/api/geocode/json?address="+addr+"+PL&key=AIzaSyBjL50qBMCVGQrpGKf_WV2h6r04xAri6gQ";
+        Connection.Response cordResponse = Jsoup.connect(url)
+                .ignoreContentType(true)
+                .method(Connection.Method.GET)
+                .execute();
+
+        Map<String,String> coordMap = new HashMap<>();
+
+//        log.info(cordResponse.body());
+
+        jsonResponse = mapper.readValue(cordResponse.body(),typeRef);
+        jsonResponse =((Map<String,Object>)(((List<Object>)jsonResponse.get("results")).get(0)));
+//         log.info(jsonResponse.toString());
+        jsonResponse = (Map<String,Object>)((Map<String,Object>)jsonResponse.get("geometry")).get("location");
+
+        coordMap.put("lat",jsonResponse.get("lat").toString());
+        coordMap.put("lng",jsonResponse.get("lng").toString());
+
+
+        log.info(coordMap.toString());
+
+        ArrayList<Station> stationList = (ArrayList<Station>)stationRepository.findAll();
+
+        for(Station s: stationList){
+            double dist = distanceService.getDistance(Double.valueOf(coordMap.get("lat")),Double.valueOf(coordMap.get("lng")),Double.valueOf(s.getAddress().getLat()),Double.valueOf(s.getAddress().getLng()));
+            if(dist<distance){
+                Address stationAddress = s.getAddress();
+                StationDTO stationDTO = new StationDTO();
+                stationDTO.setName(s.getName());
+                stationDTO.setId(s.getId());
+                stationDTO.setPB95Price(s.getPB95Price());
+                stationDTO.setPB98Price(s.getPB98Price());
+                stationDTO.setONPrice(s.getONPrice());
+                stationDTO.setLPGPrice(s.getLPGPrice());
+                stationDTO.setCity(stationAddress.getCity());
+                stationDTO.setStreet(stationAddress.getStreet());
+                stationDTO.setHomeNumber(stationAddress.getHomeNumber());
+                stationDTO.setZipcode(stationAddress.getZipcode());
+                stationDTO.setComments(entityToCommentDTO(s.getComments()));
+                stationDTO.setDistance((int)dist);
+                PositionDTO positionDTO = new PositionDTO();
+                positionDTO.setDescription(s.getName()+", "+stationAddress.getCity()+" ul. "+stationAddress.getStreet()+" "+stationAddress.getHomeNumber());
+                positionDTO.setLatitude(Double.valueOf(stationAddress.getLat()));
+                positionDTO.setLongitude(Double.valueOf(stationAddress.getLng()));
+                stationDTO.setPosition(positionDTO);
+
+                OptionalDouble avg1Opt =s.getComments().stream().mapToDouble(a->a.getRating()).average();
+
+                if(avg1Opt.isPresent())
+                    stationDTO.setRating(String.format("%1.1f",avg1Opt.getAsDouble()).replace(",","."));
+                else
+                    stationDTO.setRating("0.0");
+
+                stationsInCircle.add(stationDTO);
+            }
+        }
+
+        StationsDTO stationsDTO = new StationsDTO();
+        stationsDTO.setStationsDTO(stationsInCircle);
+        PositionDTO userPositionDTO = new PositionDTO();
+        userPositionDTO.setLatitude(Double.valueOf(coordMap.get("lat")));
+        userPositionDTO.setLongitude(Double.valueOf(coordMap.get("lng")));
+        userPositionDTO.setDescription("Twój adres");
+        stationsDTO.setUserPosition(userPositionDTO);
+
+        return stationsDTO;
+    }
+
+
 
 
 }

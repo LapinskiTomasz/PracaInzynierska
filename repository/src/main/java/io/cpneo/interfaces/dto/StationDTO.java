@@ -33,5 +33,28 @@ public class StationDTO {
 
     private StatisticsDTO statistics;
 
+    private int distance;
 
+    private PositionDTO position;
+
+
+    @Override
+    public String toString() {
+        return "StationDTO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", comments=" + comments +
+                ", PB95Price=" + PB95Price +
+                ", PB98Price=" + PB98Price +
+                ", ONPrice=" + ONPrice +
+                ", LPGPrice=" + LPGPrice +
+                ", city='" + city + '\'' +
+                ", zipcode='" + zipcode + '\'' +
+                ", street='" + street + '\'' +
+                ", homeNumber='" + homeNumber + '\'' +
+                ", rating='" + rating + '\'' +
+                ", statistics=" + statistics +
+                ", distance=" + distance +
+                '}';
+    }
 }
